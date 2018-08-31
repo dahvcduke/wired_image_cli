@@ -7,6 +7,14 @@ warnings.warn = warn
 import sys
 import click
 import numpy as np
+
+import keras
+from keras.preprocessing import image
+from keras.applications.imagenet_utils import decode_predictions, preprocess_input
+from keras.models import Model
+from sklearn.decomposition import PCA
+from scipy.spatial import distance
+
 from keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
 from keras.models import Sequential
 from keras.layers import Dropout, Flatten, Dense
@@ -17,6 +25,8 @@ import math
 import cv2
 import tensorflow as tf
 from pyfiglet import Figlet
+from tqdm import tqdm
+import _pickle as pickle
 
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -52,6 +62,39 @@ epochs = 50
 # batch size used by flow_from_directory and predict_generator
 batch_size = 16
 graph = tf.get_default_graph()
+
+model = keras.applications.VGG16(weights='imagenet', include_top=True)
+feat_extractor = Model(inputs=model.input, outputs=model.get_layer("fc2").output)
+
+#########################################################
+######## CLOSEST IMAGE ########################################
+#########################################################
+
+def get_image(path):
+    img = image.load_img(path, target_size=model.input_shape[1:3])
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
+    return img, x
+
+
+def get_closest_images(query_image_idx, num_results=5):
+    distances = [ distance.euclidean(pca_features[query_image_idx], feat) for feat in pca_features ]
+    idx_closest = sorted(range(len(distances)), key=lambda k: distances[k])[1:num_results+1]
+    return idx_closest
+
+def get_concatenated_images(indexes, thumb_height):
+    thumbs = []
+    for idx in indexes:
+        img = image.load_img(images[idx])
+        img = img.resize((int(img.width * thumb_height / img.height), thumb_height))
+        thumbs.append(img)
+    concat_image = np.concatenate([np.asarray(t) for t in thumbs], axis=1)
+    return concat_image
+
+#########################################################
+######## FINETUNE KERAS ########################################
+#########################################################
 
 def prepare_image(image, target):
 
@@ -241,7 +284,6 @@ def predict(input_image):
     click.secho("##########################################", fg='blue')
     click.echo("")
     click.echo("")
-   
 
 
 class Document(object):
@@ -269,6 +311,40 @@ def train_model(train_data_dir, validation_data_dir, epochs, batch_size):
 @click.option('--input_image', prompt='You Message', help='input image, ex. my_image.png')
 def predict_class(input_image):
     predict(input_image)
+
+@cli.command()
+@click.option('--input_image', prompt="Input Image Folder", help='input image folder, ex. ./my_image_folder')
+@click.option('--max_num', prompt='Max number of Images to Train', help='max number of images ex. 500')
+def closest_train(input_image, max_num):
+    max_num_images = int(max_num)
+    images = [os.path.join(dp, f) for dp, dn, filenames in os.walk(input_image) for f in filenames if os.path.splitext(f)[1].lower() in ['.jpg','.png','.jpeg']]
+    if max_num_images < len(images):
+        images = [images[i] for i in sorted(random.sample(range(len(images)), max_num_images))]
+
+    features = []
+    for image_path in tqdm(images):
+        img, x = get_image(image_path);
+        feat = feat_extractor.predict(x)[0]
+        features.append(feat)
+
+    features = np.array(features)
+    pca = PCA(n_components=300)
+    pca.fit(features)
+    pca_features = pca.transform(features)
+
+    print("keeping %d images to analyze" % len(images))
+    pickle.dump([images, pca_features], open('./features_images.p', 'wb'))
+
+@cli.command()
+@click.option('--input_image', prompt="Input Image Number", help='input image folder, ex. ./my_image_folder')
+def closest_predict(input_image):
+    images, pca_features = pickle.load(open('./features_images.p', 'rb'))
+
+    query_image_idx = input_image
+    idx_closest = get_closest_images(query_image_idx)
+    query_image = get_concatenated_images([query_image_idx], 300)
+    results_image = get_concatenated_images(idx_closest, 200)
+    click.echo(results_image)
 
 if __name__ == '__main__':
     cli()
