@@ -3,7 +3,6 @@ def warn(*args, **kwargs):
     pass
 import warnings
 warnings.warn = warn
-import flask
 import sys
 import click
 import numpy as np
@@ -21,7 +20,27 @@ from pyfiglet import Figlet
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
 
+f = Figlet(font='slant')
+click.echo(f.renderText('WIRED! CLI'))
+
+click.echo('Wired! Image CLI Is A Command Line Interface for Document Aggregation and Analysis. his CLI allows users to query natural lanugage processing techniques to develop statistic, analysis, and API interfaces from a corpus of documents. It was developed throught the Wired! Lab at Duke University {}'.format(emoji.emojize(':zap:', use_aliases=True)))
+
+
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
+click.echo("")
 
 # dimensions of our images.
 img_width, img_height = 224, 224
@@ -36,7 +55,6 @@ epochs = 50
 batch_size = 16
 graph = tf.get_default_graph()
 
-app = flask.Flask(__name__)
 
 f = Figlet(font='slant')
 click.echo(f.renderText('ImageRec'))
