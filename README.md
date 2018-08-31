@@ -25,9 +25,11 @@ python wired__image.py --help
 
 ## Usage example: Here are the questions one can answer with Wired Image CLI
 
-### What images are similar to this image?
-### What category does this image belong to?
-### What objects are in this image?
+#### Complete :white_check_mark: -- In Progress :small_red_triangle_down:
+
+### What category does this image belong to? :white_check_mark:
+### What images are similar to this image? :small_red_triangle_down:
+### What objects are in this image? :small_red_triangle_down:
 
 _For more examples and usage, please refer to the [Wiki][wiki]._
 
