@@ -1,4 +1,5 @@
 import os
+import emoji
 def warn(*args, **kwargs):
     pass
 import warnings
@@ -29,14 +30,11 @@ click.echo("")
 click.echo("")
 
 f = Figlet(font='slant')
-click.echo(f.renderText('WIRED! CLI'))
+click.echo(f.renderText('WIRED! Image CLI'))
 
 click.echo('Wired! Image CLI Is A Command Line Interface for Document Aggregation and Analysis. his CLI allows users to query natural lanugage processing techniques to develop statistic, analysis, and API interfaces from a corpus of documents. It was developed throught the Wired! Lab at Duke University {}'.format(emoji.emojize(':zap:', use_aliases=True)))
 
 
-click.echo("")
-click.echo("")
-click.echo("")
 click.echo("")
 click.echo("")
 click.echo("")
@@ -54,10 +52,6 @@ epochs = 50
 # batch size used by flow_from_directory and predict_generator
 batch_size = 16
 graph = tf.get_default_graph()
-
-
-f = Figlet(font='slant')
-click.echo(f.renderText('ImageRec'))
 
 def prepare_image(image, target):
 
