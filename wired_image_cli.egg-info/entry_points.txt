@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        wired_image_cli=wired_image_clis:cli
+    

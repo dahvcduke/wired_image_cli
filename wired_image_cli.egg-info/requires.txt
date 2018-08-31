@@ -1,0 +1,13 @@
+click
+tqdm
+cv2
+gensim
+pandas
+emoji
+keras
+scipy
+PyInquirer
+pyfiglet
+tensorflow
+numpy
+pickle

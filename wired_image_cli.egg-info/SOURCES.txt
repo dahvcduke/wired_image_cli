@@ -1,0 +1,8 @@
+README.md
+setup.py
+wired_image_cli.egg-info/PKG-INFO
+wired_image_cli.egg-info/SOURCES.txt
+wired_image_cli.egg-info/dependency_links.txt
+wired_image_cli.egg-info/entry_points.txt
+wired_image_cli.egg-info/requires.txt
+wired_image_cli.egg-info/top_level.txt
