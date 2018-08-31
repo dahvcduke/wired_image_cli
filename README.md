@@ -10,9 +10,7 @@ This is a CLI for image analysis. This CLI allows users to develop image categor
 
 OS X & Linux:
 
-```sh
-pip install wired_image_cli
-```
+#### in progress...
 
 ## Development
 
