@@ -32,7 +32,7 @@ click.echo("")
 f = Figlet(font='slant')
 click.echo(f.renderText('WIRED! Image CLI'))
 
-click.echo('Wired! Image CLI Is A Command Line Interface for Document Aggregation and Analysis. his CLI allows users to query natural lanugage processing techniques to develop statistic, analysis, and API interfaces from a corpus of documents. It was developed throught the Wired! Lab at Duke University {}'.format(emoji.emojize(':zap:', use_aliases=True)))
+click.echo('Wired! Image CLI Is A Command Line Interface for Image Analysis. This CLI allows users to develop image categorization and object detection interfaces from a folder of images. It was developed throught the Wired! Lab at Duke University {}'.format(emoji.emojize(':zap:', use_aliases=True)))
 
 
 click.echo("")
