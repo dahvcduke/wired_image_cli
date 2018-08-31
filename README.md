@@ -1,4 +1,4 @@
-# WiredCLI
+# Wired Image CLI
 > A Command Line Interface for Image Analysis
 
 
@@ -23,11 +23,11 @@ python wired__image.py --help
 ```
 
 
-## Usage example: Here are the questions one can answer with WiredCLI
+## Usage example: Here are the questions one can answer with Wired Image CLI
 
 ### What images are similar to this image?
 ### What category does this image belong to?
-### What ocjects are in this image?
+### What objects are in this image?
 
 _For more examples and usage, please refer to the [Wiki][wiki]._
 
